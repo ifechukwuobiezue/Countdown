@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Countdown Timer</title>
+    <style>
+      /* Reset default styles and add custom styles */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        text-align: center;
+        padding: 20px;
+      }
+
+      #countdown {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      #countdown div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #countdown span {
+        font-size: 36px;
+        color: #333;
+      }
+
+      #countdown span:first-child {
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="countdown">
+      <div>
+        <span id="days">00</span>
+        <span>Days</span>
+      </div>
+      <div>
+        <span id="hours">00</span>
+        <span>Hours</span>
+      </div>
+      <div>
+        <span id="minutes">00</span>
+        <span>Minutes</span>
+      </div>
+      <div>
+        <span id="seconds">00</span>
+        <span>Seconds</span>
+      </div>
+    </div>
+
+    <script>
+      // Set the target date and time for the countdown
+      const targetDate = new Date("2024-04-01T00:00:00").getTime();
+
+      // Update the countdown display every second
+      const countdownInterval = setInterval(() => {
+        // Get the current date and time
+        const now = new Date().getTime();
+
+        // Calculate the remaining time in milliseconds
+        const remainingTime = targetDate - now;
+
+        // Calculate days, hours, minutes, and seconds
+        const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (remainingTime % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+        // Update the countdown display
+        document.getElementById("days").innerText = formatTime(days);
+        document.getElementById("hours").innerText = formatTime(hours);
+        document.getElementById("minutes").innerText = formatTime(minutes);
+        document.getElementById("seconds").innerText = formatTime(seconds);
+
+        // Stop the countdown when the target date is reached
+        if (remainingTime < 0) {
+          clearInterval(countdownInterval);
+          document.getElementById("countdown").innerText = "Countdown Finished";
+        }
+      }, 1000); // Update every second
+
+      // Function to format time units (add leading zero if needed)
+      function formatTime(time) {
+        return time < 10 ? `0${time}` : time;
+      }
+    </script>
+  </body>
+</html>
